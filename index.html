@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>カウンター</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin: 30px 0 10px;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #00e0ff;
+    }
+
+    h2#activeName {
+      margin: 0 0 20px;
+      font-size: 1.2rem;
+      color: #bbb;
+    }
+
+    .counter {
+      font-size: 4rem;
+      margin: 40px 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: #222;
+      color: #fff;
+      transition: all 0.2s ease;
+      width: 200px;
+    }
+
+    button:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .switch-btns {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      width: 90%;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+
+    .switch-btns button {
+      background: #00e0ff;
+      color: #111;
+      font-weight: bold;
+    }
+
+    .switch-btns button.active {
+      background: #fff;
+      color: #111;
+    }
+
+    .switch-btns button:hover {
+      background: #00b8d8;
+    }
+  </style>
+</head>
+<body>
+  <h1>カウンター</h1>
+  <h2 id="activeName">カウンター1</h2>
+
+  <div id="counter" class="counter">0</div>
+
+  <div class="controls">
+    <button onclick="increment()">＋</button>
+    <button onclick="decrement()">－</button>
+    <button onclick="reset()">リセット</button>
+  </div>
+
+  <div class="switch-btns">
+    <button id="btn0" onclick="switchCounter(0)">カウンター1</button>
+    <button id="btn1" onclick="switchCounter(1)">カウンター2</button>
+    <button id="btn2" onclick="switchCounter(2)">カウンター3</button>
+    <button id="btn3" onclick="switchCounter(3)">カウンター4</button>
+  </div>
+
+  <script>
+    let counters = [0, 0, 0, 0];
+    let activeIndex = 0;
+    const names = ["カウンター1", "カウンター2", "カウンター3", "カウンター4"];
+
+    function render() {
+      const counterEl = document.getElementById("counter");
+      const activeNameEl = document.getElementById("activeName");
+
+      counterEl.style.opacity = 0;
+      counterEl.style.transform = "scale(0.9)";
+      setTimeout(() => {
+        counterEl.textContent = counters[activeIndex];
+        counterEl.style.opacity = 1;
+        counterEl.style.transform = "scale(1)";
+      }, 200);
+
+      activeNameEl.textContent = names[activeIndex];
+
+      // active ボタン切り替え
+      for (let i = 0; i < names.length; i++) {
+        document.getElementById(`btn${i}`).classList.remove("active");
+      }
+      document.getElementById(`btn${activeIndex}`).classList.add("active");
+    }
+
+    function increment() {
+      counters[activeIndex]++;
+      render();
+    }
+
+    function decrement() {
+      if (counters[activeIndex] > 0) {
+        counters[activeIndex]--;
+      }
+      render();
+    }
+
+    function reset() {
+      counters[activeIndex] = 0;
+      render();
+    }
+
+    function switchCounter(index) {
+      activeIndex = index;
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
