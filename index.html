@@ -1,177 +1,220 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スマホ用カウンター</title>
-<style>
-  body {
-    font-family: "Segoe UI", Roboto, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #111;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カウンター</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-color: #fff;
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-  h1 {
-    margin: 30px 0 10px;
-    font-size: 2rem;
-    letter-spacing: 2px;
-    color: #00e0ff;
-  }
+    .app {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
 
-  h2#activeName {
-    margin: 0 0 20px;
-    font-size: 1.5rem;
-    color: #bbb;
-  }
+    h1 {
+      font-size: 2rem;
+      margin: 10px 0 20px;
+      letter-spacing: 1px;
+    }
 
-  #counter {
-    font-size: 5rem;
-    margin: 30px 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
+    /* タブ */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
 
-  .controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    width: 90%;
-    max-width: 400px;
-  }
+    .tab {
+      flex: 1;
+      padding: 12px 5px;
+      font-size: 0.9rem;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-  .controls .plus {
-    width: 100%;
-    padding: 25px;
-    font-size: 2.5rem;
-    background: #00e0ff;
-    color: #111;
-    font-weight: bold;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
+    .tab.active {
+      border-bottom: 2px solid #000;
+      font-weight: bold;
+    }
 
-  .controls .plus:hover {
-    background: #00b8d8;
-  }
+    /* カウンター */
+    .counter {
+      margin-bottom: 25px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
 
-  .controls .small-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 60%;
-  }
+    .title {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
 
-  .controls button.minus,
-  .controls button.reset {
-    padding: 15px;
-    font-size: 1.2rem;
-    background: #222;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
-  }
+    .number {
+      font-size: 3rem;
+      margin: 20px 0;
+    }
 
-  .controls button.minus:hover,
-  .controls button.reset:hover {
-    background: #333;
-  }
+    /* ボタン配置 */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
 
-  .switch-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    width: 90%;
-    max-width: 400px;
-    margin-bottom: 40px;
-  }
+    .btn-plus {
+      width: 160px;
+      height: 70px;
+      font-size: 2rem;
+      border: 1px solid #000;
+      border-radius: 16px;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-  .switch-btns button {
-    padding: 15px;
-    font-size: 1rem;
-    border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    background: #00e0ff;
-    color: #111;
-  }
+    .btn-plus:hover {
+      background: #000;
+      color: #fff;
+    }
 
-  .switch-btns button.active {
-    background: #fff;
-    color: #111;
-  }
+    .small-buttons {
+      display: flex;
+      gap: 12px;
+    }
 
-  .switch-btns button:hover {
-    background: #00b8d8;
-  }
-</style>
+    .btn-small {
+      width: 70px;
+      height: 40px;
+      font-size: 1.2rem;
+      border: 1px solid #000;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-small:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .reset-btn {
+      background: #f44336;
+      color: #fff;
+      border: none;
+    }
+
+    .reset-btn:hover {
+      background: #d32f2f;
+    }
+  </style>
 </head>
 <body>
-
-<h1>カウンター</h1>
-<h2 id="activeName">DM送信数</h2>
-<div id="counter">0</div>
-
-<div class="controls">
-  <button class="plus" onclick="increment()">＋</button>
-  <div class="small-buttons">
-    <button class="minus" onclick="decrement()">－</button>
-    <button class="reset" onclick="reset()">リセット</button>
+  <div class="app">
+    <br>
+    <h1>カウンター</h1>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(0)">DM送信数</button>
+      <button class="tab" onclick="switchTab(1)">反応数</button>
+      <button class="tab" onclick="switchTab(2)">面談決定数</button>
+      <button class="tab" onclick="switchTab(3)">獲得数</button>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <div id="counters">
+      <div class="counter" id="counter0">
+        <div class="title">DM送信数</div>
+        <div class="number" id="number0">0</div>
+        <div class="buttons">
+          <button class="btn-plus" onclick="changeValue(0, 1)">＋</button>
+          <div class="small-buttons">
+            <button class="btn-small" onclick="changeValue(0, -1)">－</button>
+            <button class="btn-small reset-btn" onclick="resetValue(0)">⭯</button>
+          </div>
+        </div>
+      </div>
+      <div class="counter" id="counter1" style="display:none;">
+        <div class="title">反応数</div>
+        <div class="number" id="number1">0</div>
+        <div class="buttons">
+          <button class="btn-plus" onclick="changeValue(1, 1)">＋</button>
+          <div class="small-buttons">
+            <button class="btn-small" onclick="changeValue(1, -1)">－</button>
+            <button class="btn-small reset-btn" onclick="resetValue(1)">⭯</button>
+          </div>
+        </div>
+      </div>
+      <div class="counter" id="counter2" style="display:none;">
+        <div class="title">面談決定数</div>
+        <div class="number" id="number2">0</div>
+        <div class="buttons">
+          <button class="btn-plus" onclick="changeValue(2, 1)">＋</button>
+          <div class="small-buttons">
+            <button class="btn-small" onclick="changeValue(2, -1)">－</button>
+            <button class="btn-small reset-btn" onclick="resetValue(2)">⭯</button>
+          </div>
+        </div>
+      </div>
+      <div class="counter" id="counter3" style="display:none;">
+        <div class="title">獲得数</div>
+        <div class="number" id="number3">0</div>
+        <div class="buttons">
+          <button class="btn-plus" onclick="changeValue(3, 1)">＋</button>
+          <div class="small-buttons">
+            <button class="btn-small" onclick="changeValue(3, -1)">－</button>
+            <button class="btn-small reset-btn" onclick="resetValue(3)">⭯</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+  <script>
+    let values = JSON.parse(localStorage.getItem("counters")) || [0, 0, 0, 0];
 
-<div class="switch-btns">
-  <button id="btn0" onclick="switchCounter(0)">DM送信数</button>
-  <button id="btn1" onclick="switchCounter(1)">反応数</button>
-  <button id="btn2" onclick="switchCounter(2)">面談決定数</button>
-  <button id="btn3" onclick="switchCounter(3)">獲得数</button>
-</div>
+    function updateDisplay(index) {
+      document.getElementById("number" + index).textContent = values[index];
+      localStorage.setItem("counters", JSON.stringify(values));
+    }
 
-<script>
-let counters = [0,0,0,0];
-let activeIndex = 0;
-const names = ["DM送信数","反応数","面談決定数","獲得数"];
+    function changeValue(index, delta) {
+      values[index] = Math.max(0, values[index] + delta);
+      updateDisplay(index);
+    }
 
-function render() {
-  const counterEl = document.getElementById("counter");
-  const activeNameEl = document.getElementById("activeName");
+    function resetValue(index) {
+      values[index] = 0;
+      updateDisplay(index);
+    }
 
-  counterEl.style.opacity = 0;
-  counterEl.style.transform = "scale(0.9)";
-  setTimeout(() => {
-    counterEl.textContent = counters[activeIndex];
-    counterEl.style.opacity = 1;
-    counterEl.style.transform = "scale(1)";
-  }, 150);
+    function switchTab(index) {
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("counter" + i).style.display = i === index ? "block" : "none";
+        document.getElementsByClassName("tab")[i].classList.toggle("active", i === index);
+      }
+    }
 
-  activeNameEl.textContent = names[activeIndex];
-
-  for(let i=0;i<names.length;i++){
-    document.getElementById(`btn${i}`).classList.remove("active");
-  }
-  document.getElementById(`btn${activeIndex}`).classList.add("active");
-}
-
-function increment(){ counters[activeIndex]++; render(); }
-function decrement(){ if(counters[activeIndex]>0)counters[activeIndex]--; render(); }
-function reset(){ counters[activeIndex]=0; render(); }
-function switchCounter(index){ activeIndex=index; render(); }
-
-render();
-</script>
-
+    // 初期表示
+    for (let i = 0; i < 4; i++) {
+      updateDisplay(i);
+    }
+  </script>
 </body>
 </html>
